@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://67ajpepvccve"]
+
+[node name="Sub" type="Node2D"]
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_right = 218.0
+offset_bottom = 84.0
+text = "wow amazing subscene"
