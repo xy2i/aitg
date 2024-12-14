@@ -1,0 +1,14 @@
+[package]
+name = "rust" # if you change this name, change the name in the .gdextension
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]  # Compile this crate to a dynamic C library.
+
+[dependencies]
+aitg_proc = { path = "../aitg-proc" }
+
+# Godot FFI library
+godot = "0.2.0"
+smart-default = "0.7.1"
