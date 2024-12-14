@@ -3,6 +3,8 @@ use godot::classes::Sprite2D;
 use godot::obj::WithBaseField;
 use godot::prelude::*;
 
+mod microserde;
+mod sol;
 struct MyExtension;
 
 #[gdextension]

@@ -9,3 +9,4 @@ crate-type = ["cdylib"]  # Compile this crate to a dynamic C library.
 [dependencies]
 # Godot FFI library
 godot = "0.2.0"
+indexmap = "2.7.0"
