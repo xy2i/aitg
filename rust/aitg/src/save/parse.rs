@@ -1,20 +1,15 @@
-//! SOL format parser.
-//!
-//! Anti-Idle uses the AMF0 format.
-//! See https://download.macromedia.com/pub/labs/amf/amf0_spec_121207.pdf.
-//! Also see https://github.com/sile/amf for an implementation.
+use crate::sparse_array::SparseArray;
 use std::collections::HashMap;
 
-use indexmap::IndexMap;
-
-#[derive(Debug, Clone)]
+#[derive(Debug, Default)]
 pub enum Amf0Value {
     Number(f64),
     Boolean(bool),
     String(String),
     Null,
+    #[default]
     Undefined,
-    EcmaArray(IndexMap<usize, Amf0Value>),
+    EcmaArray(SparseArray<Amf0Value>),
 }
 
 #[derive(Debug)]
@@ -86,13 +81,22 @@ impl<'a> Parser<'a> {
         (self.read_str(), self.read_amf0_value())
     }
 
-    fn read_ecma_array(&mut self) -> IndexMap<usize, Amf0Value> {
+    fn read_ecma_array(&mut self) -> SparseArray<Amf0Value> {
         // Skip array length
         self.read_u32();
 
-        let mut map = IndexMap::new();
+        let mut map = SparseArray::new();
         while !self.check_end_of_object() {
             let (key, value) = self.read_key_value_pair();
+
+            // A number can be undefined in AS2, so it's possible to have an
+            // array with an "undefined" key.
+            // This appears in real saves. Discard the value, as we can't
+            // do anything with it anyways.
+            if key == "undefined" {
+                continue;
+            }
+
             let key = key.parse::<usize>().unwrap();
             map.insert(key, value);
         }
@@ -146,34 +150,29 @@ impl<'a> Parser<'a> {
     }
 }
 
-pub fn read_sol(data: &[u8]) -> Savedata {
+pub fn read_sol(data: &[u8]) -> HashMap<String, Amf0Value> {
     let mut parser = Parser::new(data);
     let name = parser.read_header();
     println!("Reading save from SOL, internal name: {}", name);
 
-    let mut save = Savedata {
-        name,
-        data: HashMap::new(),
-    };
+    let mut data = HashMap::new();
 
     while parser.has_remaining_data() {
         let (key, value) = parser.read_key_value_pair();
-        dbg!(&key, &value);
-        save.data.insert(key, value);
+        data.insert(key, value);
 
         // Check trailing byte (must be 0x00)
         let trailing = parser.read_u8();
         if trailing != 0 {
             panic!("Invalid trailing byte: must be 0, got {trailing}");
         }
-        dbg!(parser.pos);
     }
 
-    save
+    data
 }
 
 #[cfg(test)]
-mod test {
+mod tests {
     use super::*;
     use std::fs::read;
 
@@ -181,5 +180,13 @@ mod test {
     pub fn atg_global() {
         let file = read("tests/sol/ATG_Global.sol").unwrap();
         let save = read_sol(&file);
+        // let _ = std::fs::write("out_global.ron", format!("{save:?}"));
+    }
+
+    #[test]
+    pub fn karlie_save() {
+        let file = read("tests/sol/karlie_save.sol").unwrap();
+        let save = read_sol(&file);
+        // let _ = std::fs::write("out.ron", format!("{save:?}"));
     }
 }

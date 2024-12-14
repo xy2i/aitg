@@ -3,7 +3,10 @@ use godot::classes::Sprite2D;
 use godot::obj::WithBaseField;
 use godot::prelude::*;
 
-mod sol;
+pub mod classes;
+pub mod save;
+pub mod sparse_array;
+
 struct MyExtension;
 
 #[gdextension]

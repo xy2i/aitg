@@ -1,12 +1,4 @@
-[package]
-name = "rust"
-version = "0.1.0"
-edition = "2021"
+[workspace]
+resolver = '2'
 
-[lib]
-crate-type = ["cdylib"]  # Compile this crate to a dynamic C library.
-
-[dependencies]
-# Godot FFI library
-godot = "0.2.0"
-indexmap = "2.7.0"
+members = ["aitg", "aitg-proc"]
