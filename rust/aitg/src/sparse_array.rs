@@ -29,15 +29,30 @@ pub struct SparseArray<T: Default> {
 /// let a = sparse![10, 20, 30];
 /// assert_eq!(a[1], 20);
 /// ```
+#[macro_export]
 macro_rules! sparse {
     // Match an empty array: sparse![]
     () => {
         SparseArray::new()
     };
 
-    // Match a list of values: sparse![val1, val2, val3, ...]
-    ($($value:expr),+ $(,)?) => {
-        SparseArray::from_values([$($value),*])
+    // Non-empty case. We use a secondary matcher to handle the conversion
+    ($($value:tt),+ $(,)?) => {
+        SparseArray::from_values([
+            $(
+                sparse!(@as_expr $value)
+            ),*
+        ])
+    };
+
+    // If the token is a literal (which includes string literals and int    ), convert it.
+    (@as_expr $x:literal) => {
+        $x.into()
+    };
+
+    // For any other expression type (e.g. integers, variables), use them as-is.
+    (@as_expr $x:expr) => {
+        $x
     };
 }
 
@@ -130,7 +145,7 @@ mod tests {
 
     #[test]
     pub fn constructor() {
-        let a = sparse![10, 20, 30];
+        let a: SparseArray<i32> = sparse![10, 20, 30];
         assert_eq!(a[2], 30);
     }
 }

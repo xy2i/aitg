@@ -10,5 +10,5 @@ crate-type = ["cdylib"]  # Compile this crate to a dynamic C library.
 aitg_proc = { path = "../aitg-proc" }
 
 # Godot FFI library
-godot = "0.2.0"
+godot = { git = "https://github.com/godot-rust/gdext", branch = "master", features = ["experimental-wasm", "lazy-function-tables"] }
 smart-default = "0.7.1"
