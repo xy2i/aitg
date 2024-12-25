@@ -1,0 +1,34 @@
+[remap]
+
+importer="font_data_dynamic"
+type="FontFile"
+uid="uid://cj214jh0c3rmw"
+path="res://.godot/imported/4762_IDLE PLANET_8pt_st.ttf-565d71bca6d81483a1e479a6edd47934.fontdata"
+
+[deps]
+
+source_file="res://godot/fonts/4762_IDLE PLANET_8pt_st.ttf"
+dest_files=["res://.godot/imported/4762_IDLE PLANET_8pt_st.ttf-565d71bca6d81483a1e479a6edd47934.fontdata"]
+
+[params]
+
+Rendering=null
+antialiasing=1
+generate_mipmaps=false
+disable_embedded_bitmaps=true
+multichannel_signed_distance_field=false
+msdf_pixel_range=8
+msdf_size=48
+allow_system_fallback=true
+force_autohinter=false
+hinting=1
+subpixel_positioning=1
+oversampling=0.0
+Fallbacks=null
+fallbacks=[]
+Compress=null
+compress=true
+preload=[]
+language_support={}
+script_support={}
+opentype_features={}
