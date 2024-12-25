@@ -1,0 +1,70 @@
+[gd_scene load_steps=8 format=3 uid="uid://cbyyeaf4q5eos"]
+
+[ext_resource type="PackedScene" uid="uid://gkvema20morg" path="res://godot/BottomBar.tscn" id="1_dq3s4"]
+[ext_resource type="FontFile" uid="uid://b13u4mtuc78o2" path="res://godot/fonts/McLaren.ttf" id="2_qjnk2"]
+[ext_resource type="Script" path="res://godot/main-screen/NameText.cs" id="3_gftsl"]
+[ext_resource type="Script" path="res://godot/main-screen/TitleText.cs" id="4_dvvqu"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_8voa1"]
+light_mode = 2
+
+[sub_resource type="Gradient" id="Gradient_q37uv"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_1ri50"]
+gradient = SubResource("Gradient_q37uv")
+
+[node name="MainScene" type="Node2D"]
+
+[node name="BottomBar" parent="." instance=ExtResource("1_dq3s4")]
+
+[node name="TopBar" type="ColorRect" parent="."]
+offset_right = 650.0
+offset_bottom = 70.0
+color = Color(0, 0, 0, 0.5)
+
+[node name="MarginContainer" type="MarginContainer" parent="TopBar"]
+layout_mode = 0
+offset_left = 185.0
+offset_top = 10.0
+offset_right = 425.0
+offset_bottom = 38.4
+theme_override_constants/margin_top = 2
+
+[node name="nameText" type="Label" parent="TopBar/MarginContainer"]
+material = SubResource("CanvasItemMaterial_8voa1")
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/shadow_outline_size = 6
+theme_override_fonts/font = ExtResource("2_qjnk2")
+theme_override_font_sizes/font_size = 17
+text = "Name"
+horizontal_alignment = 1
+script = ExtResource("3_gftsl")
+
+[node name="PointLight2D" type="PointLight2D" parent="TopBar/MarginContainer/nameText"]
+position = Vector2(36, 5)
+scale = Vector2(0.853943, 22)
+texture = SubResource("GradientTexture1D_1ri50")
+offset = Vector2(100, 0.25)
+
+[node name="MarginContainer2" type="MarginContainer" parent="TopBar"]
+layout_mode = 2
+offset_left = 185.0
+offset_top = 40.0
+offset_right = 425.0
+offset_bottom = 66.0
+theme_override_constants/margin_top = 2
+
+[node name="titleText" type="Label" parent="TopBar/MarginContainer2"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/shadow_outline_size = 7
+theme_override_fonts/font = ExtResource("2_qjnk2")
+theme_override_font_sizes/font_size = 12
+text = "Name"
+horizontal_alignment = 1
+script = ExtResource("4_dvvqu")
